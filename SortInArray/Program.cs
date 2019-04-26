@@ -26,8 +26,8 @@ namespace SortInArray
             while (true)
             {
                 while (!int.TryParse(Console.ReadLine(), out needle)) Console.WriteLine("Falsche Eingabe");
-                ShowPosition(needle, BinarySearch(theArray, needle));
-            }                                   
+                Console.WriteLine("Die Zahl {0,-2} ist auf {1,2} Position", needle, BinarySearch(theArray, needle));
+            }                       
         }
 
         static int[] GetRandomArray(int NumOfElements)
@@ -65,37 +65,34 @@ namespace SortInArray
         }
         static int BinarySearch(int[] arr, int needle)
         {
-            bool finish = false;
+            if (arr[arr.Length - 1] == needle) return arr.Length - 1;
 
-            while(!finish)
+            bool finish = false;
+            int i = arr.Length / 2;
+            int position = -1;
+            while (!finish)
             {
-                if (arr[arr.Length - 1] == needle) return arr.Length - 1;
-                int i = arr.Length / 2;
-                
+                               
                 while (needle < i - i / 2)
                 {
-                    if (arr[i] == needle) return i;
-                    finish = true;
+                    if (arr[i] == needle)
+                    {
+                        finish = true;
+                        position = i - i / 2;
+                    }
                     i /= 2;
                 }
                 while (needle > i + i / 2)
                 {
-                    if (arr[i] == needle) return i;
-                    finish = true;
+                    if (arr[i] == needle)
+                    {
+                        finish = true;
+                        position = i + i / 2;
+                    }                                              
                     i /= 2;
                 }
             }
-            return -1;
+            return position;
         }           
-        static void ShowPosition(int needle, int i)
-        {
-            if (i == -1) Console.WriteLine("Deine Zahl ist nicht auf dem Array");
-            else
-            {
-               
-
-                Console.WriteLine("Die Zahl {0,-2} ist auf {1,2} Position", needle, i);
-            }
-        }
     }
 }
