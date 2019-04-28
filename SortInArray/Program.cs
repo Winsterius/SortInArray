@@ -39,7 +39,7 @@ namespace SortInArray
             int[] arr = new int[NumOfElements];
             for (int i = 0; i < arr.Length; i++)
             {
-                arr[i] = random.Next(1000001);
+                arr[i] = random.Next(10001);
             }
         
             return arr;
@@ -76,19 +76,21 @@ namespace SortInArray
             if (arr[0] == needle) return 0;
             int position = arr.Length / 2;
             int halfPosition = position / 2;
-            
+            bool toMuch = false;
             while (true)
             {
-                bool toMuch = false;
+                
+                if (toMuch) position--;
+                toMuch = false;
                 if (arr[position] != needle)
                 {
                     if (needle < arr[position]) position = Math.Abs(position - halfPosition);
                     if (needle > arr[position]) position = Math.Abs(position + halfPosition);                    
                 }
                 if (arr[position] == needle) return position;
-                if (toMuch) position--;
+                
                 halfPosition = halfPosition / 2;
-                if (halfPosition % 2 != 0 && halfPosition != 1) halfPosition++; toMuch = true;
+                if (halfPosition % 2 != 0 && halfPosition != 1) { halfPosition++; toMuch = true; }
                 if (halfPosition == 0) return -1;                                                                                                       
             }
         }
