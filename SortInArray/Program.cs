@@ -21,8 +21,11 @@ namespace SortInArray
             while (!int.TryParse(Console.ReadLine(), out length)) Console.WriteLine("Falsche Eingabe");
 
             theArray = GetRandomArray(length);
+            //Array.Sort(theArray);
+            //Console.WriteLine("ready");
             BubbleSort(theArray);
             PrintArray(theArray);
+            //Console.WriteLine("ready");
             while (true)
             {
                 while (!int.TryParse(Console.ReadLine(), out needle)) Console.WriteLine("Falsche Eingabe");
@@ -36,7 +39,7 @@ namespace SortInArray
             int[] arr = new int[NumOfElements];
             for (int i = 0; i < arr.Length; i++)
             {
-                arr[i] = random.Next(-100, 101);
+                arr[i] = random.Next(1001);
             }
         
             return arr;
@@ -47,11 +50,15 @@ namespace SortInArray
         }
         static void BubbleSort(int[] arr)
         {
+            //int i = 0;
             do
             {
+                
+                //if (arr[i] == arr[i + 1] && i < arr.Length - 1) i++;
                 count = 0;
                 for (int i = 0; i < arr.Length - 1; i++)
                 {
+                    
                     if (arr[i] > arr[i + 1])
                     {
                         temp = arr[i];
@@ -66,33 +73,21 @@ namespace SortInArray
         static int BinarySearch(int[] arr, int needle)
         {
             if (arr[arr.Length - 1] == needle) return arr.Length - 1;
-
-            bool finish = false;
-            int i = arr.Length / 2;
-            int position = -1;
-            while (!finish)
-            {
-                               
-                while (needle < i - i / 2)
+            if (arr[0] == needle) return 0;
+            int position = arr.Length / 2;
+            int halfPosition = position / 2; 
+            while (true)
+            {               
+                if (arr[position] != needle)
                 {
-                    if (arr[i] == needle)
-                    {
-                        finish = true;
-                        position = i - i / 2;
-                    }
-                    i /= 2;
+                    if (needle < arr[position]) position = Math.Abs(position - halfPosition);
+                    if (needle > arr[position]) position = Math.Abs(position + halfPosition);
                 }
-                while (needle > i + i / 2)
-                {
-                    if (arr[i] == needle)
-                    {
-                        finish = true;
-                        position = i + i / 2;
-                    }                                              
-                    i /= 2;
-                }
+                if (arr[position] == needle) return position;
+                halfPosition = halfPosition / 2;
+                if (halfPosition % 2 != 0 && halfPosition != 1) halfPosition++; 
+                if (halfPosition == 0) return -1;                                                                                                       
             }
-            return position;
-        }           
+        }
     }
 }
