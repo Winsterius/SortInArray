@@ -11,28 +11,23 @@ namespace SortInArray
         static int count = 0;
         static int temp = 0;
         static bool finish = false;
+        static int needle;
+        static int length;
 
         static void Main(string[] args)
         {
             int[] theArray;
-            int length;
-            int needle;
-            Console.WriteLine("Gib die Länge des Arrays ein");
-            while (!int.TryParse(Console.ReadLine(), out length)) Console.WriteLine("Falsche Eingabe");
 
+            length = CheckNumber();            
             theArray = GetRandomArray(length);
             Array.Sort(theArray);
             //Console.WriteLine("ready");
             //BubbleSort(theArray);
             PrintArray(theArray);
-            //Console.WriteLine("ready");
-            while (true)
-            {
-                while (!int.TryParse(Console.ReadLine(), out needle)) Console.WriteLine("Falsche Eingabe");
-                Console.WriteLine("Die Zahl {0,-2} ist auf {1,2} Position", needle, BinarySearch(theArray, needle));
-            }                       
+            Console.WriteLine("ready");
+            while(true) SearchNeedly(theArray);
+                                
         }
-
         static int[] GetRandomArray(int NumOfElements)
         {
             Random random = new Random();
@@ -50,11 +45,8 @@ namespace SortInArray
         }
         static void BubbleSort(int[] arr)
         {
-            //int i = 0;
             do
-            {
-                
-                //if (arr[i] == arr[i + 1] && i < arr.Length - 1) i++;
+            {                               
                 count = 0;
                 for (int i = 0; i < arr.Length - 1; i++)
                 {
@@ -72,16 +64,14 @@ namespace SortInArray
         }
         static int BinarySearch(int[] arr, int needle)
         {
-            if (arr[arr.Length - 1] == needle) return arr.Length - 1;
-            if (arr[0] == needle) return 0;
             int position = arr.Length / 2;
             int halfPosition = position / 2;
-            bool toMuch = false;
+            bool tooMuch = false;
             while (true)
             {
                 
-                if (toMuch) position--;
-                toMuch = false;
+                if (tooMuch) position--;
+                tooMuch = false;
                 if (arr[position] != needle)
                 {
                     if (needle < arr[position]) position = Math.Abs(position - halfPosition);
@@ -90,9 +80,20 @@ namespace SortInArray
                 if (arr[position] == needle) return position;
                 
                 halfPosition = halfPosition / 2;
-                if (halfPosition % 2 != 0 && halfPosition != 1) { halfPosition++; toMuch = true; }
+                if (halfPosition % 2 != 0 && halfPosition != 1) { halfPosition++; tooMuch = true; }
                 if (halfPosition == 0) return -1;                                                                                                       
             }
+        }
+        static void SearchNeedly(int[] theArray)
+        {
+            while (!int.TryParse(Console.ReadLine(), out needle)) Console.WriteLine("Falsche Eingabe");
+            Console.WriteLine("Die Zahl {0,-2} ist auf {1,2} Position", needle, BinarySearch(theArray, needle));
+        }
+        static int CheckNumber()
+        {
+            Console.WriteLine("Gib die Länge des Arrays ein");
+            while (!int.TryParse(Console.ReadLine(), out length)) Console.WriteLine("Falsche Eingabe");
+            return length;
         }
     }
 }
